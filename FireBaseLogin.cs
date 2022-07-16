@@ -36,16 +36,15 @@ public class DataManager : Singleton<DataManager> {
         //Firebase
         firebaseAuth = FirebaseAuth.DefaultInstance;
         databaseReference = FirebaseDatabase.DefaultInstance.RootReference;
-        
     }
 
-    public void OnClickFirebaseCharacterDataSave() {
-        string jsonData = JsonUtility.ToJson(new Serialization<Characters>(characters));
-        databaseReference.Child("Character_Database").SetRawJsonValueAsync(jsonData);
+    public void Firebase_DataSave() {
+        string jsonData = JsonUtility.ToJson(new Serialization<Lists>(List_var));
+        databaseReference.Child("Reference").SetRawJsonValueAsync(jsonData);
     }
 
-    public void FirebaseCharacterDataLoad() {
-        // Set CharacterData
+    public void Firebase_DataLoad() {
+        // Set Data
         FirebaseDatabase.DefaultInstance.GetReference("Reference").GetValueAsync().ContinueWith(task => {
             if (task.IsCanceled) {
                 Debug.Log("Canceled");
@@ -56,57 +55,27 @@ public class DataManager : Singleton<DataManager> {
             else {
                 DataSnapshot snapshot = task.Result;
                 string jsonData = snapshot.GetRawJsonValue();
-                characters = JsonUtility.FromJson<Serialization<Characters>>(jsonData).target;
+                List_var = JsonUtility.FromJson<Serialization<Lists>>(jsonData).target;
             }
         });
     }
-    private void Update() {
-        if(!isLoad){
-            FirebaseUserDataLoad();
-        }
-    }
-    public void TestLogin_firebase(){
-        // userid = bbB7UnATcVOK9zYVcQC0Cgt6ZMi1;
-        // email = test.@test.coom;
-        emailField.text = "test@test.com";
-        passField.text = "qwerasdf12!";
-        firebaseAuth.SignInWithEmailAndPasswordAsync(emailField.text, passField.text).ContinueWith(
-            task => {
-                if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled) {
-                    Debug.Log(emailField.text + " 로 자동 로그인 하셨습니다.");
-                }
-                else {
-                    Debug.Log("로그인에 실패하셨습니다.");
-                }
-                Firebase.Auth.FirebaseUser alreadyUser = task.Result;
-                user_id_UID = alreadyUser.UserId;
-                user_email = alreadyUser.Email;
-                FirebaseUserDataLoad();
-               
-            }
-        );
-
-        // StartCoroutine(FirebaseUserDataLoad()); 
-    }
 
     public void LoginInFirebase() {
-        emailField.text = "test@test.com";
-        passField.text = "qwerasdf12!";
+        emailField.text = "test_mail";
+        passField.text = "password";
         firebaseAuth.SignInWithEmailAndPasswordAsync(emailField.text, passField.text).ContinueWith(
             task => {
                 if (task.IsCompleted && !task.IsFaulted && !task.IsCanceled) {
-                    Debug.Log(emailField.text + " 로 로그인 하셨습니다.");
+                    Debug.Log(emailField.text + " Login Success.");
                 }
                 else {
-                    Debug.Log("로그인에 실패하셨습니다.");
+                    Debug.Log("Login Fault.");
                 }
                 Firebase.Auth.FirebaseUser alreadyUser = task.Result;
                 user_id_UID = alreadyUser.UserId;
                 user_email = alreadyUser.Email;
             }
         );
-        // FirebaseUserDataLoad();
-        // StartCoroutine(FirebaseUserDataLoad()); 
     }
 
     public void FirebaseUserDataLoad() {
@@ -137,8 +106,6 @@ public class DataManager : Singleton<DataManager> {
                     isLoad = true;
                 } 
             });
-        // }
-        // yield return new WaitUntil(predicate: () => DBtask.IsCompleted);
     }
 
     public void RegisterInFirebase() {
@@ -151,7 +118,7 @@ public class DataManager : Singleton<DataManager> {
                     WriteNewUser_InFireBase(newUser.UserId);
                 }
                 else
-                    Debug.Log("회원가입 실패\n");
+                    Debug.Log("Register Failed\n");
             });
     }
 
