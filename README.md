@@ -1,2 +1,2 @@
 # External-Database
-Using Playfab, Firebase, Google Play Game Service
+Using Playfab, Firebase, Google Play Game Service, Admob, etc..
