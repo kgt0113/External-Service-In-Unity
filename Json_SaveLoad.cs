@@ -60,7 +60,14 @@ public class DataManager : Singleton<DataManager> {
     }
 
     public void JsonDataLoad() {
+        if (!File.Exists(MyCharacterDatapath) {
+            JsonDataSave();
+        }
+        
         string dataPath = Application.persistentDataPath + "/characters.txt";
+        string code = File.ReadAllText(dataPath);
+        byte[] bytes = System.Convert.FromBase64String(code);
+        string myData = System.Text.Encoding.UTF8.GetString(bytes);
         characters = JsonUtility.FromJson<Serialization<Characters>>(jsonData).target;
     }
 }
