@@ -43,8 +43,10 @@ public class DataManager : Singleton<DataManager> {
             Destroy(this.gameObject);
         }
         characters = new List<Characters>();
+        SetData();
     }
-    public void SetData(){
+    
+    public void SetData() {
         characters.Add(new Characters(0, "Black", 0);
         characters.Add(new Characters(1, "Cheese", 100);
     }
