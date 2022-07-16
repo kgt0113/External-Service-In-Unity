@@ -114,7 +114,7 @@ public class DataManager : Singleton<DataManager> {
                 if (!task.IsCanceled && !task.IsFaulted) {
                     Debug.Log(emailField.text + " Regitser\n");
                     Firebase.Auth.FirebaseUser newUser = task.Result;
-                    user_Info = (new User_Info(newUser.UserId, newUser.Email, 0, 0, characters));
+                    user_data = new User_data(newUser.UserId, 0, 0, characters));
                     WriteNewUser_InFireBase(newUser.UserId);
                 }
                 else
