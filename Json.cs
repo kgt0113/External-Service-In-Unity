@@ -52,15 +52,15 @@ public class DataManager : Singleton<DataManager> {
     }
 
     public void JsonDataSave() {
+        string dataPath = Application.persistentDataPath + "/characters.txt";
         string jsonData = JsonUtility.ToJson(new Serialization<Characters>(characters));
         byte[] bytes = System.Text.Encoding.UTF8.GetBytes(jsonData);
         string code = System.Convert.ToBase64String(bytes);
-
-        File.WriteAllText(filePath, code);
-        print(jsonData);
+        File.WriteAllText(dataPath, code);
     }
 
     public void JsonDataLoad() {
+        string dataPath = Application.persistentDataPath + "/characters.txt";
         characters = JsonUtility.FromJson<Serialization<Characters>>(jsonData).target;
     }
 }
