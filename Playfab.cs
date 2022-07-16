@@ -12,6 +12,7 @@ public class DataManager : MonoBehaviour {
 
     //Playfab Data
     public InputField EmailInput, PasswordInput, UsernameInput;
+    public Text CoinText;
     public Text TestLogInPlayfab;
     public Text TestLogInBackground;
 
@@ -56,20 +57,21 @@ public class DataManager : MonoBehaviour {
             },
             (error) => { CoinText.text = "Integer Load failed"; });
     }
+    
     public void DataSaveInPlayfab() {
-        string MyCharacterData = JsonUtility.ToJson(new Serialization<SushiData>(AllSushiList), true);
-        var request = new UpdateUserDataRequest() { Data = new Dictionary<string, string>() { { "playerSushiList", MyCharacterData } } };
-        PlayFabClientAPI.UpdateUserData(request, (result) => TestLogInBackground.text = "서버에 데이터 저장됨", (error) => TestLogInBackground.text = "데이터 저장 실패함");
+        string myData = JsonUtility.ToJson(new Serialization<Lists>(Lists_var), true);
+        var request = new UpdateUserDataRequest() { Data = new Dictionary<string, string>() { { "userData", myData } } };
+        PlayFabClientAPI.UpdateUserData(request, (result) => TestLogInBackground.text = "Data Saved success", (error) => TestLogInBackground.text = "Data Save Failed");
     }
 
     public void DataLoadFromPlayfab() {
         var request = new GetUserDataRequest() { PlayFabId = myId };
         PlayFabClientAPI.GetUserData(request,
         (result) => { foreach (var eachData in result.Data)
-            AllSushiList = JsonUtility.FromJson<Serialization<SushiData>>(eachData.Value.Value).target;
-            TestLogInBackground.text = "데이터 로드 성공"; 
+            Lists = JsonUtility.FromJson<Serialization<UserData>>(eachData.Value.Value).target;
+            TestLogInBackground.text = "Data Load Success"; 
         },
-        (error) => TestLogInBackground.text = "데이터 로딩 실패");
+        (error) => TestLogInBackground.text = "Data Load Failed");
     }
 }
    
