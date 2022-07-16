@@ -5,14 +5,12 @@ using GoogleMobileAds.Api;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class RestartBtn : MonoBehaviour {
+public class Admob_InterstitialAD : MonoBehaviour {
     public Canvas myCanvas;
-    public static RestartBtn instance;
     public Button restartBtn;
-    // Start is called before the first frame update
+
     private InterstitialAd interstitial;
     private void Start() {
-        instance = this;
         restartBtn.onClick.AddListener(BtnClickRestart);
     }
     private void RequestInterstitial() {
@@ -43,7 +41,6 @@ public class RestartBtn : MonoBehaviour {
     //admob
     public void BtnClickRestart() {
         RequestInterstitial();
-        
         StartCoroutine(showInterstitial());
         IEnumerator showInterstitial() {
             while (!this.interstitial.IsLoaded()) {
