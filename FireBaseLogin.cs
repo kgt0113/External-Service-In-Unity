@@ -60,7 +60,7 @@ public class DataManager : Singleton<DataManager> {
         });
     }
 
-    public void LoginInFirebase() {
+    public void Firebas_LoginIn() {
         emailField.text = "test_mail";
         passField.text = "password";
         firebaseAuth.SignInWithEmailAndPasswordAsync(emailField.text, passField.text).ContinueWith(
@@ -78,7 +78,7 @@ public class DataManager : Singleton<DataManager> {
         );
     }
 
-    public void FirebaseUserDataLoad() {
+    public void Firebase_UserDataLoad() {
         string refer = user_id_UID;
         if(refer == "") return;
         
@@ -108,7 +108,7 @@ public class DataManager : Singleton<DataManager> {
             });
     }
 
-    public void RegisterInFirebase() {
+    public void Firebase_RegisterIn() {
         firebaseAuth.CreateUserWithEmailAndPasswordAsync(emailField.text, passField.text).ContinueWith(
             task => {
                 if (!task.IsCanceled && !task.IsFaulted) {
@@ -122,7 +122,7 @@ public class DataManager : Singleton<DataManager> {
             });
     }
 
-    void WriteNewUser_InFireBase(string userid) {
+    void InFireBase_WriteNewUser(string userid) {
         string json = JsonUtility.ToJson((user_Info)); 
         databaseReference.Child("Refer").Child(userid).SetRawJsonValueAsync(json);
     }
