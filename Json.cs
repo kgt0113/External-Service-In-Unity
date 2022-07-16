@@ -53,6 +53,10 @@ public class DataManager : Singleton<DataManager> {
 
     public void JsonDataSave() {
         string jsonData = JsonUtility.ToJson(new Serialization<Characters>(characters));
+        byte[] bytes = System.Text.Encoding.UTF8.GetBytes(jsonData);
+        string code = System.Convert.ToBase64String(bytes);
+
+        File.WriteAllText(filePath, code);
         print(jsonData);
     }
 
